@@ -1,0 +1,49 @@
+# Lab-2: Working with JSON in Python
+import json
+
+print("=== Task 1: Parsing and Modifying JSON Strings ===")
+raw_json = """
+{
+    "id": 101,
+    "name": "Alex Mercer",
+    "email": "alex.old@example.com",
+    "is_active": true,
+    "skills": ["Python", "SQL"]
+}
+"""
+
+# 1. Parse JSON string into Python dict
+user_data = json.loads(raw_json)
+
+# 2. Modify email and append a new skill
+user_data["email"] = "alex.mercer@example.com"
+user_data["skills"].append("Docker")
+
+# 3. Convert back to JSON string with indentation
+updated_json = json.dumps(user_data, indent=4)
+print("Updated JSON Output:")
+print(updated_json)
+
+print("\n=== Task 2: File I/O with JSON and Stock Value Calculation ===")
+products = [
+    {"id": "P1", "name": "Wireless Mouse", "price": 25.50, "quantity": 10},
+    {"id": "P2", "name": "Mechanical Keyboard", "price": 85.00, "quantity": 5},
+    {"id": "P3", "name": "HD Monitor", "price": 150.00, "quantity": 2}
+]
+
+# Step 1: Write Python data to a JSON file
+with open("products.json", "w", encoding="utf-8") as file:
+    json.dump(products, file, indent=4)
+print("Data successfully written to products.json\n")
+
+# Step 2: Read JSON file and calculate total stock value
+total_stock_value = 0.0
+with open("products.json", "r", encoding="utf-8") as file:
+    loaded_products = json.load(file)
+    
+    for item in loaded_products:
+        item_total = item["price"] * item["quantity"]
+        total_stock_value += item_total
+        print(f"Item: {item['name']} | Subtotal: ${item_total:.2f}")
+
+print(f"\nTotal Stock Value: ${total_stock_value:.2f}")
